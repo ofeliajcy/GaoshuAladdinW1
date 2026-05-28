@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<!-- saved from url=(0040)file:///Users/ofe/Downloads/index_2.html -->
+<html lang="zh-TW"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>單字 PK</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; background: #f2f2f7; color: #1c1c1e; min-height: 100vh; }
+  .wrap { max-width: 480px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 22px; font-weight: 700; text-align: center; margin: 12px 0 4px; }
+  .subtitle { font-size: 13px; color: #8e8e93; text-align: center; margin-bottom: 16px; }
+  #nameInput { width: 100%; padding: 15px; font-size: 17px; border: 1.5px solid #d1d1d6; border-radius: 10px; background: #fff; color: #1c1c1e; outline: none; text-align: center; -webkit-appearance: none; margin-bottom: 12px; }
+  #nameInput:focus { border-color: #34c759; }
+  .btn-green { display: block; width: 100%; padding: 15px; border-radius: 10px; border: none; background: #34c759; color: #fff; font-size: 17px; font-weight: 700; cursor: pointer; margin-bottom: 10px; }
+  .btn-green:active { opacity: 0.85; }
+  .btn-gray { display: block; width: 100%; padding: 13px; border-radius: 10px; border: 1.5px solid #d1d1d6; background: #fff; color: #1c1c1e; font-size: 15px; cursor: pointer; margin-bottom: 10px; }
+  .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+  .tab { border: 1.5px solid #d1d1d6; border-radius: 10px; padding: 12px 6px; font-size: 14px; font-weight: 500; color: #636366; background: #fff; cursor: pointer; text-align: center; }
+  .tab.active { border-color: #34c759; background: #f0fdf4; color: #15803d; }
+  .meta { display: flex; justify-content: space-between; font-size: 13px; color: #8e8e93; margin-bottom: 8px; }
+  .bar-bg { height: 5px; background: #e5e5ea; border-radius: 3px; margin-bottom: 12px; }
+  .bar-fill { height: 5px; background: #34c759; border-radius: 3px; transition: width 0.3s; }
+  .timer { text-align: center; font-size: 13px; color: #8e8e93; margin-bottom: 12px; }
+  .card { background: #fff; border-radius: 14px; padding: 28px 16px; text-align: center; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .word { font-size: 32px; font-weight: 600; margin-bottom: 8px; color: #1c1c1e; }
+  .speak-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 8px 18px; border-radius: 20px; border: 1.5px solid #d1d1d6; background: #f9f9f9; color: #636366; font-size: 14px; cursor: pointer; }
+  .speak-btn:active { background: #e5e5ea; }
+  .sentence { font-size: 17px; line-height: 1.8; text-align: left; }
+  .blank { display: inline-block; min-width: 80px; border-bottom: 2.5px solid #34c759; color: #34c759; font-weight: 600; text-align: center; padding: 0 4px; }
+  .opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .opt { background: #fff; border: 1.5px solid #d1d1d6; border-radius: 10px; padding: 16px 8px; font-size: 15px; color: #1c1c1e; cursor: pointer; text-align: center; line-height: 1.4; min-height: 56px; display: flex; align-items: center; justify-content: center; box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
+  .opt:active { transform: scale(0.97); }
+  .opt.correct { background: #f0fdf4; border-color: #34c759; color: #15803d; }
+  .opt.wrong { background: #fff1f2; border-color: #f87171; color: #991b1b; }
+  .opt:disabled { cursor: default; }
+  .fb { font-size: 14px; min-height: 24px; text-align: center; color: #8e8e93; margin-bottom: 10px; line-height: 1.6; }
+  .fb.ok { color: #15803d; font-weight: 600; }
+  .fb.no { color: #991b1b; font-weight: 600; }
+  input[type="text"] { width: 100%; padding: 15px; font-size: 17px; border: 1.5px solid #d1d1d6; border-radius: 10px; background: #fff; color: #1c1c1e; outline: none; margin-bottom: 10px; text-align: center; -webkit-appearance: none; }
+  input[type="text"]:focus { border-color: #34c759; }
+  .btn-confirm { display: block; width: 100%; padding: 15px; border-radius: 10px; border: none; background: #34c759; color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; margin-bottom: 10px; }
+  .btn-confirm:active { opacity: 0.85; }
+  .btn-next { display: block; width: 100%; padding: 15px; border-radius: 10px; border: 1.5px solid #d1d1d6; background: #fff; color: #1c1c1e; font-size: 15px; cursor: pointer; }
+  .hint { font-size: 12px; color: #aeaeb2; text-align: center; margin-bottom: 10px; }
+  .summary { text-align: center; padding: 32px 0; }
+  .score-num { font-size: 64px; font-weight: 700; color: #34c759; }
+  .score-total { font-size: 22px; color: #8e8e93; }
+  .score-msg { font-size: 16px; color: #636366; margin: 10px 0 6px; }
+  .score-time { font-size: 14px; color: #8e8e93; margin-bottom: 24px; }
+  .lb-row { display: flex; align-items: center; background: #fff; border-radius: 12px; padding: 14px 16px; margin-bottom: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.06); gap: 12px; }
+  .lb-rank { font-size: 20px; font-weight: 700; width: 32px; text-align: center; flex-shrink: 0; }
+  .lb-name { flex: 1; font-size: 16px; font-weight: 500; }
+  .lb-empty { text-align: center; color: #8e8e93; padding: 32px 0; font-size: 15px; }
+  .uploading { text-align: center; color: #8e8e93; font-size: 14px; padding: 8px 0; }
+  .namescreen { text-align: center; padding: 32px 0; }
+  .namescreen h2 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+  .namescreen p { font-size: 14px; color: #8e8e93; margin-bottom: 24px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🏆 單字 PK</h1>
+  <p class="subtitle">英文班單字練習</p>
+  <div id="mainArea"><div class="namescreen">
+      <h2>輸入你的名字</h2>
+      <p>答完後成績會上傳排行榜！</p>
+      <input id="nameInput" type="text" placeholder="你的名字..." maxlength="10" onkeyup="if(event.keyCode===13)startGame()">
+      <button class="btn-green" onclick="startGame()">開始！</button>
+      <button class="btn-gray" onclick="showLeaderboard()">🏆 排行榜</button>
+    </div></div>
+</div>
+<script>
+const SUPA_URL = "https://kgyphkpboqiplsqvqsic.supabase.co";
+const SUPA_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtneXBoa3Bib3FpcGxzcXZxc2ljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4OTI4MTUsImV4cCI6MjA5NTQ2ODgxNX0.YIxqzddMYr_CCjlsDgBi1s-NUD_mq8BbRlCj__lqex4";
+
+async function dbInsert(data) {
+  const res = await fetch(SUPA_URL + "/rest/v1/score", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "apikey": SUPA_KEY, "Authorization": "Bearer " + SUPA_KEY, "Prefer": "return=minimal" },
+    body: JSON.stringify(data)
+  });
+  if (!res.ok) throw new Error("insert failed");
+}
+
+async function dbSelect() {
+  const res = await fetch(SUPA_URL + "/rest/v1/score?select=*&order=pct.desc,time.asc&limit=20", {
+    headers: { "apikey": SUPA_KEY, "Authorization": "Bearer " + SUPA_KEY }
+  });
+  if (!res.ok) throw new Error("select failed");
+  return await res.json();
+}
+
+const V = [
+  {en:"banana",zh:"香蕉",s:"I eat a ___ every morning.",t:"banana"},
+  {en:"hat",zh:"帽子",s:"She wore a big ___ on her head.",t:"hat"},
+  {en:"money",zh:"錢",s:"He saved his ___ to buy a new bike.",t:"money"},
+  {en:"look",zh:"看",s:"Please ___ at the board carefully.",t:"look"},
+  {en:"brave",zh:"勇敢的",s:"The ___ knight fought the dragon.",t:"brave"},
+  {en:"happy",zh:"快樂的",s:"She felt ___ when she got a gift.",t:"happy"},
+  {en:"strong",zh:"強壯的",s:"He is very ___ and can lift heavy things.",t:"strong"},
+  {en:"kind",zh:"善良的",s:"It is ___ to help others in need.",t:"kind"},
+  {en:"cute",zh:"可愛的",s:"The baby panda is so ___.",t:"cute"},
+  {en:"pretty",zh:"漂亮的",s:"She wore a ___ dress to the party.",t:"pretty"},
+  {en:"funny",zh:"好笑的",s:"His joke was so ___ that everyone laughed.",t:"funny"},
+  {en:"magic",zh:"有魔法的",s:"The wizard used a ___ spell to open the door.",t:"magic"},
+  {en:"cool",zh:"酷的",s:"That trick on the skateboard looked really ___.",t:"cool"},
+  {en:"smart",zh:"聰明的",s:"She is a ___ student who always gets high scores.",t:"smart"},
+  {en:"helpful",zh:"熱心的",s:"He is always ___ when someone needs help.",t:"helpful"},
+  {en:"naughty",zh:"調皮的",s:"The ___ boy hid his sister's pencil case.",t:"naughty"},
+  {en:"beautiful",zh:"美麗的",s:"The flowers in the garden are very ___.",t:"beautiful"},
+  {en:"loyal",zh:"忠心的",s:"A ___ dog always stays by its owner's side.",t:"loyal"},
+  {en:"bad",zh:"壞壞的",s:"It is ___ to lie to your friends.",t:"bad"}
+];
+
+let playerName="", mode="mc";
+let queue=[], idx=0, score=0, answered=false;
+let startTime=0, elapsedSec=0, timerInterval=null;
+
+function shuffle(a){
+  var b=a.slice();
+  for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t;}
+  return b;
+}
+function speak(word){
+  if(!window.speechSynthesis)return;
+  window.speechSynthesis.cancel();
+  var u=new SpeechSynthesisUtterance(word);
+  u.lang="en-US";u.rate=0.9;
+  window.speechSynthesis.speak(u);
+}
+window.speak=speak;
+function esc(s){return String(s).replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/"/g,"&quot;");}
+function formatTime(s){var m=Math.floor(s/60),sc=s%60;return(m>0?m+"分":"")+sc+"秒";}
+function stopTimer(){if(timerInterval){clearInterval(timerInterval);timerInterval=null;}}
+
+const spkBtn=w=>`<button class="speak-btn" onclick="speak('${esc(w)}')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg> 發音</button>`;
+
+// NAME SCREEN
+function showNameScreen(){
+  stopTimer();
+  document.getElementById("mainArea").innerHTML=
+    `<div class="namescreen">
+      <h2>輸入你的名字</h2>
+      <p>答完後成績會上傳排行榜！</p>
+      <input id="nameInput" type="text" placeholder="你的名字..." maxlength="10" onkeyup="if(event.keyCode===13)startGame()" />
+      <button class="btn-green" onclick="startGame()">開始！</button>
+      <button class="btn-gray" onclick="showLeaderboard()">🏆 排行榜</button>
+    </div>`;
+  setTimeout(()=>{const e=document.getElementById("nameInput");if(e)e.focus();},100);
+}
+window.showNameScreen=showNameScreen;
+
+window.startGame=function(){
+  const el=document.getElementById("nameInput");
+  const name=el?el.value.trim():"";
+  if(!name){if(el)el.style.borderColor="#f87171";return;}
+  playerName=name;
+  showModeSelect();
+};
+
+// MODE SELECT
+function showModeSelect(){
+  stopTimer();
+  const keys=["mc","zh","type","cloze"];
+  const labels=[["選擇題","看英選中"],["中翻英","看中選英"],["拼字","輸入英文"],["克漏字","句子填空"]];
+  let tabs="";
+  keys.forEach((k,i)=>{
+    tabs+=`<button class="tab${mode===k?" active":""}" onclick="pickMode('${k}')">${labels[i][0]}<br><span style="font-size:11px;font-weight:400;opacity:0.7">${labels[i][1]}</span></button>`;
+  });
+  document.getElementById("mainArea").innerHTML=
+    `<div style="padding:16px 0;">
+      <h2 style="font-size:18px;font-weight:600;margin-bottom:6px;">嗨，${playerName}！選擇模式</h2>
+      <p style="font-size:13px;color:#8e8e93;margin-bottom:20px;">答題速度也會影響排名哦！</p>
+      <div class="mode-grid">${tabs}</div>
+      <button class="btn-gray" onclick="showLeaderboard()">🏆 排行榜</button>
+    </div>`;
+}
+window.showModeSelect=showModeSelect;
+window.pickMode=function(m){mode=m;startQuiz();};
+
+// QUIZ
+function startQuiz(){
+  queue=shuffle(V.slice());
+  idx=0;score=0;answered=false;
+  startTime=Date.now();elapsedSec=0;
+  stopTimer();
+  timerInterval=setInterval(()=>{
+    elapsedSec=Math.floor((Date.now()-startTime)/1000);
+    const el=document.getElementById("timerVal");
+    if(el)el.textContent=formatTime(elapsedSec);
+  },1000);
+  renderQuiz();
+}
+window.startQuiz=startQuiz;
+
+function renderQuiz(){
+  if(idx>=queue.length){renderSummary();return;}
+  const it=queue[idx],total=queue.length;
+  const pct=Math.round(idx/total*100);
+  const header=`<div class="meta"><span id="counter">題目 ${idx+1} / ${total}</span><span id="scoredisp">得分：${score}</span></div><div class="bar-bg"><div class="bar-fill" id="barfill" style="width:${pct}%"></div></div><div class="timer">⏱ <span id="timerVal">${formatTime(elapsedSec)}</span></div>`;
+  const area=document.getElementById("mainArea");
+  answered=false;
+
+  if(mode==="mc"){
+    const dis=shuffle(V.filter(v=>v.en!==it.en)).slice(0,3);
+    const opts=shuffle([it].concat(dis));
+    let html=header+`<div class="card"><div class="word">${it.en}</div>${spkBtn(it.en)}</div><div class="opts">`;
+    opts.forEach(o=>{html+=`<button class="opt" onclick="chkMC(this,'${esc(o.zh)}','${esc(it.zh)}')">${o.zh}</button>`;});
+    area.innerHTML=html+`</div><div class="fb" id="fb"></div>`;
+
+  } else if(mode==="zh"){
+    const dis=shuffle(V.filter(v=>v.en!==it.en)).slice(0,3);
+    const opts=shuffle([it].concat(dis));
+    let html=header+`<div class="card"><div class="word">${it.zh}</div></div><div class="opts">`;
+    opts.forEach(o=>{html+=`<button class="opt" onclick="chkMCSpeak(this,'${esc(o.en)}','${esc(it.en)}')">${o.en}</button>`;});
+    area.innerHTML=html+`</div><div class="fb" id="fb"></div>`;
+
+  } else if(mode==="type"){
+    area.innerHTML=header
+      +`<div class="card"><div class="word">${it.zh}</div></div>`
+      +`<input type="text" id="ti" placeholder="輸入英文..." autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" onkeyup="if(event.keyCode===13)subType()" />`
+      +`<button class="btn-confirm" onclick="subType()">確認</button>`
+      +`<div class="fb" id="fb"></div>`
+      +`<button class="btn-next" id="nb" onclick="nxt()" style="display:none">下一題 →</button>`;
+    setTimeout(()=>{const e=document.getElementById("ti");if(e)e.focus();},80);
+
+  } else {
+    const sentHTML=it.s.replace("___","<span class='blank'>___</span>");
+    const dis=shuffle(V.filter(v=>v.en!==it.en)).slice(0,3);
+    const opts=shuffle([it].concat(dis));
+    let html=header+`<div class="card"><div class="sentence">${sentHTML}</div></div><div class="hint">選出正確的單字填入空格</div><div class="opts">`;
+    opts.forEach(o=>{html+=`<button class="opt" onclick="chkCloze(this,'${esc(o.en)}','${esc(it.en)}','${esc(it.t)}','${esc(it.s)}')">${o.en}</button>`;});
+    area.innerHTML=html+`</div><div class="fb" id="fb"></div>`;
+  }
+}
+
+window.chkMC=function(btn,chosen,correct){
+  if(answered)return;answered=true;
+  document.querySelectorAll(".opt").forEach(b=>{
+    b.disabled=true;
+    const v=b.textContent.trim();
+    if(v===correct)b.className="opt correct";
+    else if(v===chosen&&v!==correct)b.className="opt wrong";
+  });
+  const fb=document.getElementById("fb");
+  if(chosen===correct){
+    score++;fb.textContent="✓ 答對了！";fb.className="fb ok";
+    document.getElementById("scoredisp").textContent="得分："+score;
+    setTimeout(()=>{idx++;answered=false;renderQuiz();},900);
+  } else {
+    fb.textContent="✗ 正確答案是「"+correct+"」";fb.className="fb no";
+    setTimeout(()=>{idx++;answered=false;renderQuiz();},1700);
+  }
+};
+window.chkMCSpeak=function(btn,chosen,correct){speak(chosen);window.chkMC(btn,chosen,correct);};
+window.chkCloze=function(btn,chosen,correct,t,s){
+  if(answered)return;answered=true;speak(chosen);
+  document.querySelectorAll(".opt").forEach(b=>{
+    b.disabled=true;
+    const v=b.textContent.trim();
+    if(v===correct)b.className="opt correct";
+    else if(v===chosen&&v!==correct)b.className="opt wrong";
+  });
+  const filled=s.replace("___","<strong style='color:#15803d'>"+t+"</strong>");
+  const fb=document.getElementById("fb");
+  if(chosen===correct){
+    score++;fb.innerHTML="✓ 答對了！<br>"+filled;fb.className="fb ok";
+    document.getElementById("scoredisp").textContent="得分："+score;
+    setTimeout(()=>{idx++;answered=false;renderQuiz();},1600);
+  } else {
+    fb.innerHTML="✗ 正確答案：<br>"+filled;fb.className="fb no";
+    setTimeout(()=>{idx++;answered=false;renderQuiz();},2200);
+  }
+};
+window.subType=function(){
+  if(answered)return;
+  const el=document.getElementById("ti");if(!el)return;
+  const typed=el.value.trim().toLowerCase();
+  const correct=queue[idx].en.toLowerCase();
+  answered=true;el.disabled=true;
+  const fb=document.getElementById("fb"),nb=document.getElementById("nb");
+  if(typed===correct){
+    score++;speak(queue[idx].en);
+    el.style.borderColor="#34c759";
+    fb.textContent="✓ 拼對了！";fb.className="fb ok";
+    document.getElementById("scoredisp").textContent="得分："+score;
+    setTimeout(()=>{idx++;answered=false;renderQuiz();},1000);
+  } else {
+    el.style.borderColor="#f87171";
+    fb.textContent="✗ 正確答案是「"+queue[idx].en+"」";fb.className="fb no";
+    if(nb)nb.style.display="block";
+  }
+};
+window.nxt=function(){idx++;answered=false;renderQuiz();};
+
+// SUMMARY
+async function renderSummary(){
+  stopTimer();
+  const total=queue.length,pct=Math.round(score/total*100);
+  const msg=pct>=90?"太厲害了！🎉":pct>=70?"表現不錯！👍":"繼續加油！💪";
+  const modeLabel={mc:"選擇題",zh:"中翻英",type:"拼字",cloze:"克漏字"};
+  document.getElementById("mainArea").innerHTML=
+    `<div class="summary">
+      <div><span class="score-num">${score}</span><span class="score-total"> / ${total}</span></div>
+      <div class="score-msg">答對率 ${pct}%　${msg}</div>
+      <div class="score-time">⏱ 用時 ${formatTime(elapsedSec)}</div>
+      <div class="uploading" id="uploadStatus">上傳成績中...</div>
+      <button class="btn-green" onclick="startQuiz()">再挑戰一次</button>
+      <button class="btn-gray" onclick="showModeSelect()">換模式</button>
+      <button class="btn-gray" onclick="showLeaderboard()">🏆 查看排行榜</button>
+    </div>`;
+  try {
+    await dbInsert({name:playerName,score,total,pct,time:elapsedSec,mode:modeLabel[mode]||mode,created_at:new Date().toISOString()});
+    const el=document.getElementById("uploadStatus");
+    if(el)el.textContent="✓ 成績已上傳！";
+  } catch(e){
+    const el=document.getElementById("uploadStatus");
+    if(el)el.textContent="（上傳失敗，請檢查網路）";
+  }
+}
+
+// LEADERBOARD
+window.showLeaderboard=async function(){
+  document.getElementById("mainArea").innerHTML=
+    `<div>
+      <h2 style="font-size:20px;font-weight:700;text-align:center;margin-bottom:16px;">🏆 排行榜</h2>
+      <div id="lbList"><div class="lb-empty">載入中...</div></div>
+      <button class="btn-gray" onclick="showNameScreen()">← 回首頁</button>
+    </div>`;
+  try {
+    const rows=await dbSelect();
+    const lbList=document.getElementById("lbList");
+    if(!rows||rows.length===0){lbList.innerHTML='<div class="lb-empty">還沒有人上榜，快來第一個！</div>';return;}
+    const medals=["🥇","🥈","🥉"];
+    let html="";
+    rows.forEach((d,i)=>{
+      const rank=i<3?medals[i]:(i+1);
+      html+=`<div class="lb-row">
+        <div class="lb-rank">${rank}</div>
+        <div class="lb-name">${d.name}</div>
+        <div>
+          <div style="font-size:15px;color:#15803d;font-weight:600;">${d.score}/${d.total} (${d.pct}%)</div>
+          <div style="font-size:11px;color:#8e8e93;">⏱${formatTime(d.time)} · ${d.mode}</div>
+        </div>
+      </div>`;
+    });
+    lbList.innerHTML=html;
+  } catch(e){
+    document.getElementById("lbList").innerHTML='<div class="lb-empty">載入失敗，請檢查網路</div>';
+  }
+};
+
+showNameScreen();
+</script>
+
+
+</body></html>
